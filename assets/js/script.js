@@ -1,9 +1,9 @@
-var tasksInProgressEl = document.querySelector("#tasks-in-progress");
-var tasksCompletedEl = document.querySelector("tasks-completed");
-var pageContentEl = document.querySelector("#page-content");
 var taskIdCounter =0;
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
+var tasksInProgressEl = document.querySelector("#tasks-in-progress");
+var tasksCompletedEl = document.querySelector("#tasks-completed");
+var pageContentEl = document.querySelector("#page-content");
 
 var taskFormHandler = function(event){
     event.preventDefault();//what does it mean??? It stops the browser from reloading the page
@@ -17,6 +17,7 @@ var taskFormHandler = function(event){
         alert("You need to fill out the task form!");
         return false;
     }
+
     formEl.reset();// reset the input to blank
     var taskDataObj={
         name: taskNameInput,
@@ -40,7 +41,7 @@ var taskFormHandler = function(event){
 
     //send it as an argumetn to createTaskEl
     createTaskEl(taskDataObj);
-}
+};
 
 
 var createTaskEl= function(taskDataObj){
@@ -51,12 +52,10 @@ var createTaskEl= function(taskDataObj){
 
     //add task id as a custom attribute
     listItemEl.setAttribute("data-task-id",taskIdCounter);
-
     //create div to hold task info and add to list item
     var taskInfoEl = document.createElement("div");
     //give it a class name
     taskInfoEl.className = "task-info";
-
     //add html content to div
     taskInfoEl.innerHTML = "<h3 class = 'task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
 
@@ -67,20 +66,22 @@ var createTaskEl= function(taskDataObj){
     // add entire list item to list
     // listItemEl.textContent = taskNameInput;
     tasksToDoEl.appendChild(listItemEl);
-    tasksToDoEl.appendChild(taskActionsEl);//wenbo added
+    listItemEl.appendChild(taskActionsEl);//wenbo added
 
     //increase task counter for next unique id
     taskIdCounter++;
 
-}
+};
+
 var createTaskActions = function(taskId) {
-    var actionContainerEl = document.createAttribute("div");
-    actionContainerEl.className="task-actions";
+    //creat container to fold elements
+    var actionContainerEl = document.createElement("div");
+    actionContainerEl.className = "task-actions";
 
     //creat edit buttion
     var editButtonEl = document.createElement("button");
-    editButtonEl.textContent="Edit";
-    editButtonEl.className="btn edit-btn";
+    editButtonEl.textContent = "Edit";
+    editButtonEl.className = "btn edit-btn";
     editButtonEl.setAttribute("data-task-id", taskId);
 
     console.log(editButtonEl);
@@ -148,7 +149,7 @@ var editTask = function(taskId){
     console.log("editing task #" + taskId);
 
     // get task list item element
-    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskID + "']");
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
 
     //get content from task name and type
     var taskName = taskSelected.querySelector("h3.task-name").textContent;
@@ -164,7 +165,7 @@ var editTask = function(taskId){
 
 
 //complete edit task function
-var completeEditTask = function(taskName, taskType, TaskId) {
+var completeEditTask = function(taskName, taskType, taskId) {
     console.log(taskName, taskType, taskId);
 
     //find the matching task list item
@@ -179,6 +180,7 @@ var completeEditTask = function(taskName, taskType, TaskId) {
     document.querySelector("#save-task").textContent= "Add Task";
 
 };
+
 var taskStatusChangeHandler = function(event){
     console.log(event.target);
     //get the task item's id
